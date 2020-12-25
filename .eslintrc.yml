@@ -1,0 +1,245 @@
+---
+root: true
+
+plugins:
+  - "@typescript-eslint"
+  - eslint-plugin-tsdoc
+  - import
+  - prettier
+  - promise
+  - unicorn
+  - jest
+  - node
+  - typescript-sort-keys
+  - functional
+
+env:
+  node: true
+
+parser: "@typescript-eslint/parser"
+parserOptions:
+  project: "./tsconfig.json"
+  sourceType: "module"
+  ecmaVersion: 2021
+
+extends:
+  - airbnb-typescript
+  - airbnb/hooks
+  - eslint:recommended
+  - plugin:@typescript-eslint/eslint-recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/recommended-requiring-type-checking
+  - prettier
+  - prettier/@typescript-eslint
+  - plugin:prettier/recommended
+  - plugin:import/errors
+  - plugin:import/warnings
+  - plugin:import/typescript
+  - plugin:@typescript-eslint/recommended
+  - plugin:unicorn/recommended
+  - plugin:promise/recommended
+  - plugin:jest/all
+  - plugin:node/recommended
+  - plugin:typescript-sort-keys/recommended
+  - plugin:functional/recommended
+  - plugin:functional/external-recommended
+
+rules:
+  "prettier/prettier":
+    - error
+  "tsdoc/syntax":
+    - "warn"
+  "node/no-unsupported-features/es-syntax":
+    - error
+    - ignores: ["modules"]
+  "node/no-missing-import":
+    - off
+    - tryExtesnsions: [".js", ".json", ".node", ".ts"]
+  "functional/no-class":
+    - off
+  "functional/functional-parameters":
+    - off
+    - ignorePattern: "constructor"
+  "functional/no-expression-statement":
+    - error
+    - ignorePattern: ["super", "client.start", "this"]
+  "functional/no-this-expression":
+    - off
+  "unicorn/no-nested-ternary":
+    - off
+
+  ###### Extra Rules #########
+  "@typescript-eslint/array-type":
+    - error
+    - default: array-simple
+      readonly: array-simple
+
+  "@typescript-eslint/await-thenable":
+    - error
+
+  "@typescript-eslint/brace-style":
+    - error
+    - 1tbs # One True Brace Style!
+    - allowSingleLine: true
+
+  "@typescript-eslint/explicit-member-accessibility":
+    - error
+
+  "@typescript-eslint/member-ordering":
+    - error
+
+  "@typescript-eslint/no-empty-function":
+    - error
+
+  "@typescript-eslint/no-floating-promises":
+    - error
+
+  "@typescript-eslint/no-for-in-array":
+    - error
+
+  "@typescript-eslint/no-misused-promises":
+    - error
+
+  "@typescript-eslint/no-require-imports":
+    - error
+
+  "@typescript-eslint/no-unused-vars":
+    - error
+
+  "@typescript-eslint/no-useless-constructor":
+    - error
+
+  "@typescript-eslint/prefer-for-of":
+    - error
+
+  "@typescript-eslint/prefer-nullish-coalescing":
+    - error
+
+  "@typescript-eslint/prefer-readonly":
+    - error
+
+  "@typescript-eslint/promise-function-async":
+    - error
+    - checkArrowFunctions: false
+
+  "@typescript-eslint/restrict-template-expressions":
+    - error
+    - allowNumber: true
+      allowBoolean: true
+
+  "@typescript-eslint/require-await":
+    - error
+
+  "@typescript-eslint/return-await":
+    - error
+
+  "@typescript-eslint/switch-exhaustiveness-check":
+    - error
+
+  "complexity":
+    - error
+
+  "consistent-return":
+    - error
+
+  "dot-notation":
+    - error
+
+  "eqeqeq":
+    - error
+    - always
+    - null: ignore
+
+  "import/no-duplicates":
+    - error
+
+  "import/no-extraneous-dependencies":
+    - error
+    - devDependencies: ["**/test/**"] # Only allow importing devDependencies from tests
+      optionalDependencies: false # Disallow importing optional dependencies (those shouldn't be used here)
+      peerDependencies: false # Disallow importing peer dependencies (those shouldn't be used here)
+
+  "import/no-unresolved":
+    - error
+    - ignore: [worker_threads]
+
+  "import/order":
+    - error
+    - alphabetize:
+        order: asc
+        caseInsensitive: true
+      groups:
+        - [builtin, external]
+        - [parent, sibling]
+        - [index, unknown]
+      newlines-between: always
+
+  "no-alert":
+    - error
+
+  "no-await-in-loop":
+    - error
+
+  "no-caller":
+    - error
+
+  "no-else-return":
+    - error
+    - allowElseIf: true
+
+  "no-eval":
+    - error
+
+  "no-extra-bind":
+    - error
+
+  "no-implied-eval":
+    - error
+
+  "no-lone-blocks":
+    - error
+
+  "no-new-symbol":
+    - error
+
+  "no-proto":
+    - error
+
+  "no-restricted-properties":
+    - error
+
+  "no-return-await":
+    - error
+
+  "no-unused-expressions":
+    - error
+
+  "no-useless-call":
+    - error
+
+  "no-var":
+    - error
+
+  "prefer-const":
+    - error
+
+  "prefer-template":
+    - error
+
+  "eol-last":
+    - error
+    - always
+
+  "class-methods-use-this":
+    - error
+    - exceptMethods: ["exec"] #Akairo exec function cannot be made static
+
+############################
+
+settings:
+  import/parsers:
+    "@typescript-eslint/parser": [".ts", ".tsx"]
+  import/resolver:
+    node: {}
+    typescript:
+      directory: ./tsconfig.json

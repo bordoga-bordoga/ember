@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String  @id
+  blacklistReason String?
+}
+
+model Member {
+  id      String  @id
+  member  Json?
+  Guild   Guild?  @relation(fields: [guildId], references: [id])
+  guildId String?
+}
+
+model Guild {
+  id         String   @id
+  prefix     String?
+  welcome    String?
+  savedUsers Member[]
+}
