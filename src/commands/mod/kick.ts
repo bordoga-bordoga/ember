@@ -1,5 +1,6 @@
-import { Command } from "discord-akairo";
 import { Message, GuildMember } from "discord.js";
+
+import BotCommand from "../../types/akairo-extensions/bot-command";
 
 /**
  * Defines how to respond to _kick.
@@ -8,7 +9,7 @@ import { Message, GuildMember } from "discord.js";
  *
  * @see {@link https://discord-akairo.github.io/#/docs/main/master/class/Command | akairo.Command}
  */
-export default class BanCommand extends Command {
+export default class BanCommand extends BotCommand {
   public constructor() {
     super("kick", {
       aliases: ["kick", "k"],
@@ -37,7 +38,7 @@ export default class BanCommand extends Command {
       .kick()
       .then((kickedMember) =>
         Promise.resolve(
-          `<@${message.author.id}> has banned **${kickedMember.user.tag}**`,
+          `<@${message.author.id}> has kicked **${kickedMember.user.tag}**`,
         ),
       );
   }

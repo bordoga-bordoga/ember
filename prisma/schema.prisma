@@ -10,21 +10,1027 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id              String  @id
-  blacklistReason String?
+model Activity {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Activity
+  applicationID    String?
+  assets           RichPresenceAsset?
+  createdAt        DateTime?
+  createdTimestamp Int?
+  details          String?
+  emoji            Emoji?             @relation(fields: [emojiId], references: [id])
+  flags            ActivityFlags[]
+  id               String             @id
+  name             String?
+  party            ActivityParty?
+  state            String?
+  timestamps       ActivityTimestamp?
+  type             ActivityType?
+  url              String?
+
+  // Relations
+  presences Presence[]
+  emojiId   String?
 }
 
-model Member {
-  id      String  @id
-  member  Json?
-  Guild   Guild?  @relation(fields: [guildId], references: [id])
-  guildId String?
+enum ActivityFlags {
+  // https://discord.js.org/#/docs/main/12.5.1/class/ActivityFlags
+  INSTANCE
+  JOIN
+  SPECTATE
+  JOIN_REQUEST
+  SYNC
+  PLAY
+}
+
+model ActivityParty {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Activity?scrollTo=party
+  id          String @id
+  currentSize Int?
+  maxSize     Int?
+
+  // Relations
+  activity Activity @relation(fields: [id], references: [id])
+}
+
+model ActivityTimestamp {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Activity?scrollTo=timestamps
+  id    String    @id
+  start DateTime?
+  end   DateTime?
+
+  // Relations
+  activity Activity @relation(fields: [id], references: [id])
+}
+
+enum ActivityType {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Activity?scrollTo=types
+  PLAYING
+  STREAMING
+  LISTENING
+  WATCHING
+  CUSTOM_STATUS
+  COMPETING
+}
+
+model CategoryChannel {
+  // https://discord.js.org/#/docs/main/12.5.1/class/CategoryChannel
+  textChildren     TextChannel[]
+  voiceChildren    VoiceChannel[]
+  createdAt        DateTime?
+  createdTimestamp Int?
+  deletable        Boolean?
+  deleted          Boolean?
+  guild            Guild?                       @relation(fields: [guildID], references: [id])
+  guildID          String?
+  id               String                       @id
+  manageable       Boolean?
+  members          GuildMemberCategoryChannel[]
+  name             String?
+  nsfw             Boolean?
+  parent           CategoryChannel?             @relation("categoryChannelParent", fields: [parentID], references: [id])
+  parentID         String?
+  position         Int?
+  rawPosition      Int?
+  // permissionOverwrites PermissionOverwrite[]
+  type             ChannelType?
+  viewable         Boolean?
+
+  // Relations
+  CategoryChannel CategoryChannel? @relation("categoryChannelParent")
+  guildId         String?
+}
+
+model Channel {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Channel
+  createdAt        DateTime?
+  createdTimestamp Int?
+  deleted          Boolean?
+  id               String       @id
+  type             ChannelType? @default(unknown)
+
+  // Relations
+  guild    Guild?           @relation(fields: [guildID], references: [id])
+  guildID  String?
+  mentions MessageMention[]
+}
+
+enum ChannelType {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Channel?scrollTo=type
+  dm
+  text
+  voice
+  category
+  news
+  store
+  unknown
+}
+
+model ClientApplication {
+  // https://discord.js.org/#/docs/main/12.5.1/class/ClientApplication
+  botPublic           Boolean?
+  botRequireCodeGrant Boolean?
+  cover               String?
+  createdAt           DateTime?
+  createdTimestamp    Int?
+  description         String?
+  icon                String?
+  id                  String    @id
+  name                String?
+  owner               User?     @relation(fields: [ownerID], references: [id])
+  ownerID             String?
+  rpcOrigins          String[]
+
+  // Relations
+  messages Message[]
+}
+
+model ClientStatus {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Presence?scrollTo=clientStatus
+  desktop PresenceStatus?
+  id      String          @id
+  mobile  PresenceStatus?
+  web     PresenceStatus?
+
+  // Relations
+  presence Presence?
+}
+
+enum DefaultMessageNotifications {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/DefaultMessageNotifications
+  ALL
+  MENTIONS
+}
+
+model DMChannel {
+  // https://discord.js.org/#/docs/main/12.5.1/class/DMChannel
+  createdAt        DateTime?
+  createdTimestamp Int?
+  deleted          Boolean?
+  id               String       @id
+  lastMessage      Message?     @relation("lastMessage", fields: [lastMessageID], references: [id])
+  lastMessageID    String?
+  lastPinAt        DateTime?
+  lastPinTimestamp Int?
+  messages         Message[]
+  partial          Boolean?
+  recipient        User         @relation(fields: [userID], references: [id])
+  type             ChannelType?
+  typing           Boolean?
+  typingCount      Int?
+
+  // Relations
+  userID String
+}
+
+model EditedMessage {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Message?scrollTo=edits
+  id       String
+  message  Message  @relation(fields: [id], references: [id])
+  editedAt DateTime @default(now())
+
+  @@id([id, editedAt])
+}
+
+model Emoji {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Emoji
+  animated         Boolean?
+  createdAt        DateTime?
+  createdTimestamp Int?
+  deleted          Boolean?
+  id               String    @id
+  identifier       String?
+  name             String?
+  url              String?
+
+  // Relations
+  activities Activity[]
+}
+
+enum ExplicitContentFilterLevel {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/ExplicitContentFilterLevel
+  DISABLED
+  MEMBERS_WITHOUT_ROLES
+  ALL_MEMBERS
+}
+
+enum Feature {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/Features
+  ANIMATED_ICON
+  BANNER
+  COMMERCE
+  COMMUNITY
+  DISCOVERABLE
+  FEATURABLE
+  INVITE_SPLASH
+  NEWS
+  PARTNERED
+  RELAY_ENABLED
+  VANITY_URL
+  VERIFIED
+  VIP_REGIONS
+  WELCOME_SCREEN_ENABLED
 }
 
 model Guild {
-  id         String   @id
-  prefix     String?
-  welcome    String?
-  savedUsers Member[]
+  // https://discord.js.org/#/docs/main/12.5.1/class/Guild
+  afkChannel                 VoiceChannel?               @relation("afkChannel", fields: [afkChannelID], references: [id])
+  afkChannelID               String?
+  afkTimeout                 Int?
+  applicationID              String?
+  approximateMemberCount     Int?
+  approximatePresenceCount   Int?
+  available                  Boolean?
+  banner                     String?
+  channels                   Channel[]
+  client                     String?
+  createdAt                  DateTime?
+  createdAtTimestamp         Int?
+  defaultMessageNotification DefaultMessageNotifications @default(ALL)
+  deleted                    Boolean?                    @default(false)
+  description                String?
+  discoverySplash            String?
+  embedChannel               TextChannel?                @relation("embedChannel", fields: [embedChannelID], references: [id])
+  embedChannelID             String?
+  embedEnabled               Boolean?
+  emojis                     GuildEmoji[]
+  explicitContentFilter      ExplicitContentFilterLevel?
+  features                   Feature[]
+  icon                       String?
+  id                         String                      @id
+  joinedAt                   DateTime?
+  joinedTimeStamp            Int?
+  large                      Boolean?
+  maximumMembers             Int?
+  maximumPresences           Int?
+  me                         GuildMember?                @relation(fields: [client, guildID], references: [id, guildID])
+  memberCount                Int?
+  members                    GuildMember[]               @relation("members")
+  mfaLevel                   Int?
+  name                       String?
+  nameAcronym                String?
+  owner                      GuildMember?                @relation("owner", fields: [ownerID, guildID], references: [id, guildID])
+  ownerID                    String?
+  partnered                  Boolean?
+  preferredLocale            String?
+  premiumSubscriptionCount   Int?
+  premiumTier                Int?
+  presences                  Presence[]
+  publicUpdatesChannelID     String?
+  region                     String?
+  roles                      Role[]
+  rulesChannel               TextChannel?                @relation("guildRules", fields: [rulesChannelID], references: [id])
+  rulesChannelID             String?
+  shard                      WebSocketShard?             @relation(fields: [shardID], references: [id])
+  shardID                    Int?
+  splash                     String?
+  systemChannel              TextChannel?                @relation("guildSystemOutput", fields: [systemChannelID], references: [id])
+  systemChannelFlags         SystemChannelFlag[]
+  systemChannelID            String?
+  vanityURLCode              String?
+  vanityURLUses              String?
+  verificationLevel          VerificationLevel?
+  verified                   Boolean?
+  widgetChannel              TextChannel?                @relation("guildWidgetOutput", fields: [widgetChannelID], references: [id])
+  widgetChannelID            String?
+  widgetEnabled              Boolean?
+
+  // Ember Defined
+  prefix          String?  @default("?")
+  welcomeEnabled  Boolean? @default(true)
+  welcomeMessage  String?
+  stickyRoles     Boolean? @default(false)
+  stickyNicknames Boolean? @default(false)
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  categoryChannels CategoryChannel[]
+  guildMessages    Message[]
+  textChannels     TextChannel[]
+  usersInVoice     VoiceState[]
+  voiceChannels    VoiceChannel[]
+  guildID          String?
+}
+
+model GuildEmoji {
+  // https://discord.js.org/#/docs/main/12.5.1/class/GuildEmoji
+  animated         Boolean?
+  author           User?     @relation(fields: [authorID], references: [id])
+  available        Boolean?
+  createdAt        DateTime?
+  createdTimestamp Int?
+  deletable        Boolean?
+  deleted          Boolean?
+  guild            Guild?    @relation(fields: [guildID], references: [id])
+  id               String    @id
+  identifier       String?
+  managed          Boolean?
+  name             String?
+  requiresColons   Boolean?
+  // roles            Role[]
+  url              String
+
+  // Relations
+  guildID         String?
+  MessageReaction MessageReaction[]
+  authorID        String?
+}
+
+model GuildMember {
+  // https://discord.js.org/#/docs/main/12.5.1/class/GuildMember
+  bannable              Boolean?
+  deleted               Boolean?          @default(false)
+  displayColor          Int?
+  displayHexColor       String?
+  displayName           String?
+  guild                 Guild             @relation(name: "members", fields: [guildID], references: [id])
+  id                    String
+  guildID               String
+  joinedAt              DateTime?
+  joinedAtTimestamp     Int?
+  kickable              Boolean?
+  lastMessage           Message?          @relation("lastGuildMemberMessage", fields: [lastMessageID], references: [id])
+  lastMessageChannelID  String?
+  lastMessageID         String?
+  manageable            Boolean?
+  nickname              String?
+  partial               Boolean?
+  permissions           Int?
+  premiumSince          DateTime?
+  premiumSinceTimestamp Int?
+  presence              Presence?
+  roles                 GuildMemberRole[]
+  user                  User              @relation(fields: [id], references: [id])
+  voice                 VoiceState?
+
+  // Ember Defined
+  admin      Boolean? @default(false)
+  dj         Boolean? @default(false)
+  member     Json?
+  mod        Boolean? @default(false)
+  owner      Boolean? @default(false)
+  ownedGuild Guild?   @relation("owner")
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  categoryChannelsMemberCanSee GuildMemberCategoryChannel[]
+  messagesMemberSent           Message[]
+  messagesMemberMentionedIn    GuildMemberMessageMention[]
+  textchannelsMemberCanSee     GuildMemberTextChannel[]
+  voiceChannelsMemberCanSee    GuildMemberVoiceChannel[]
+  bottedGuild                  Guild?
+
+  // Identification
+  @@id([id, guildID])
+  @@index(fields: [id, guildID], name: "getMember")
+}
+
+model GuildMemberRole {
+  guildMember   GuildMember @relation(fields: [guildMemberID, guildID], references: [id, guildID])
+  guildMemberID String      @id
+  guildID       String?
+  role          Role?       @relation(fields: [roleID], references: [id])
+  roleID        String?
+  createdAt     DateTime?   @default(now())
+  updatedAt     DateTime?   @updatedAt
+}
+
+model GuildMemberCategoryChannel {
+  guildMember   GuildMember      @relation(fields: [guildMemberID, guildID], references: [id, guildID])
+  guildMemberID String           @id
+  guildID       String?
+  role          CategoryChannel? @relation(fields: [channelID], references: [id])
+  channelID     String?
+  createdAt     DateTime?        @default(now())
+  updatedAt     DateTime?        @updatedAt
+}
+
+model GuildMemberMessageMention {
+  guildMember   GuildMember     @relation(fields: [guildMemberID, guildID], references: [id, guildID])
+  guildMemberID String          @id
+  guildID       String?
+  role          MessageMention? @relation(fields: [messageID], references: [id])
+  messageID     String?
+  createdAt     DateTime?       @default(now())
+  updatedAt     DateTime?       @updatedAt
+}
+
+model GuildMemberTextChannel {
+  guildMember   GuildMember  @relation(fields: [guildMemberID, guildID], references: [id, guildID])
+  guildMemberID String       @id
+  guildID       String?
+  role          TextChannel? @relation(fields: [channelID], references: [id])
+  channelID     String?
+  createdAt     DateTime?    @default(now())
+  updatedAt     DateTime?    @updatedAt
+}
+
+model GuildMemberVoiceChannel {
+  guildMember   GuildMember   @relation(fields: [guildMemberID, guildID], references: [id, guildID])
+  guildMemberID String        @id
+  guildID       String?
+  role          VoiceChannel? @relation(fields: [channelID], references: [id])
+  channelID     String?
+  createdAt     DateTime?     @default(now())
+  updatedAt     DateTime?     @updatedAt
+}
+
+model Message {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Message
+  activity         MessageActivity?
+  application      ClientApplication? @relation(fields: [clientApplicationID], references: [id])
+  attachments      MessageAttachment?
+  author           User?              @relation(fields: [authorID], references: [id])
+  channel          TextChannel?       @relation(fields: [channelId], references: [id])
+  dmChannel        DMChannel?         @relation(fields: [channelId], references: [id])
+  cleanContent     String?
+  content          String?
+  createdAt        DateTime?
+  createdTimestamp Int?
+  crosspostable    Boolean?
+  deletable        Boolean?
+  deleted          Boolean?
+  editable         Boolean?
+  editedAt         DateTime?
+  editedTimestamp  Int?
+  edits            EditedMessage[]
+  embeds           MessageEmbed[]
+  flags            MessageFlags[]
+  guild            Guild?             @relation(fields: [guildID], references: [id])
+  id               String             @id
+  member           GuildMember?       @relation(fields: [authorID, guildID], references: [id, guildID])
+  mentions         MessageMention?
+  nonce            String?
+  partial          Boolean?
+  reactions        MessageReaction[]
+  messageReference MessageReference?
+  system           Boolean?
+  tts              Boolean?
+  type             MessageType?
+  url              String?
+  webhookID        String?
+
+  // Relations
+  channelId            String?
+  guildMember          GuildMember? @relation("lastGuildMemberMessage")
+  user                 User?        @relation("lastUserMessage")
+  textChannel          TextChannel? @relation("lastTextMessage")
+  lastMessageDMChannel DMChannel?   @relation("lastMessage")
+  authorID             String?
+  clientApplicationID  String?
+  guildID              String?
+}
+
+model MessageActivity {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageActivity
+  partyID String?
+  type    Int?
+
+  // Relations
+  message   Message @relation(fields: [messageID], references: [id])
+  messageID String  @id
+}
+
+model MessageAttachment {
+  // https://discord.js.org/#/docs/main/12.5.1/class/MessageAttachment
+  height   Int?
+  id       String   @id
+  name     String?
+  proxyURL String?
+  size     Int?
+  spoiler  Boolean?
+  url      String?
+  width    Int?
+
+  // Relations
+  message   Message?          @relation(fields: [messageID], references: [id])
+  messageID String?
+  embed     MessageEmbedFile?
+}
+
+model MessageEmbed {
+  // https://discord.js.org/#/docs/main/12.5.1/class/MessageEmbed
+  author      MessageEmbedAuthor?
+  color       Int?
+  createdAt   DateTime?
+  description String?
+  fields      MessageEmbedField[]
+  files       MessageEmbedFile[]
+  footer      MessageEmbedFooter?
+  hexColor    String?
+  id          String                 @id
+  image       MessageEmbedImage?
+  length      Int?
+  provider    MessageEmbedProvider?
+  thumbnail   MessageEmbedThumbnail?
+  timestamp   Int?
+  title       String?
+  type        MessageEmbedType?
+  url         String?
+  video       MessageEmbedVideo?
+
+  // Relations
+  message Message @relation(fields: [id], references: [id])
+}
+
+model MessageEmbedAuthor {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageEmbedAuthor
+  iconURL      String?
+  id           String  @id
+  name         String?
+  proxyIconURL String?
+  url          String?
+
+  // Relations
+  embed MessageEmbed @relation(fields: [id], references: [id])
+}
+
+model MessageEmbedField {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/EmbedField
+  id     String   @id @default(cuid())
+  inline Boolean?
+  name   String?
+  value  String?
+
+  // Relations
+  embed MessageEmbed @relation(fields: [id], references: [id])
+}
+
+model MessageEmbedFile {
+  // https://discord.js.org/#/docs/main/12.5.1/class/MessageEmbed?scrollTo=files
+  attachment           MessageAttachment? @relation(fields: [messageAttachmentID], references: [id])
+  attachmentResolvable String?
+  id                   String             @id @default(cuid())
+  name                 String?
+  value                String?
+
+  // Relations
+  embed               MessageEmbed @relation(fields: [id], references: [id])
+  messageAttachmentID String?
+}
+
+model MessageEmbedFooter {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageEmbedFooter
+  iconURL      String?
+  id           String  @id
+  proxyIconURL String?
+  text         String?
+
+  // Relations
+  embed MessageEmbed @relation(fields: [id], references: [id])
+}
+
+model MessageEmbedImage {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageEmbedImage
+  height   Int?
+  id       String  @id
+  proxyURL String?
+  url      String?
+  width    Int?
+
+  // Relations
+  embed MessageEmbed @relation(fields: [id], references: [id])
+}
+
+model MessageEmbedProvider {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageEmbedProvider
+  id   String  @id
+  name String?
+  url  String?
+
+  // Relations
+  embed MessageEmbed @relation(fields: [id], references: [id])
+}
+
+model MessageEmbedThumbnail {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageEmbedThumbnail
+  height   Int?
+  id       String  @id
+  proxyURL String?
+  url      String?
+  width    Int?
+
+  // Relations
+  embed MessageEmbed @relation(fields: [id], references: [id])
+}
+
+enum MessageEmbedType {
+  // https://discord.js.org/#/docs/main/12.5.1/class/MessageEmbed?scrollTo=type
+  rich
+  image
+  video
+  gifv
+  article
+  link
+}
+
+model MessageEmbedVideo {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageEmbedVideo
+  height   Int?
+  id       String  @id
+  proxyURL String?
+  url      String?
+  width    Int?
+
+  // Relations
+  MessageEmbed MessageEmbed @relation(fields: [id], references: [id])
+}
+
+enum MessageFlags {
+  // https://discord.js.org/#/docs/main/12.5.1/class/MessageFlags
+  CROSSPOSTED
+  IS_CROSSPOST
+  SUPPRESS_EMBEDS
+  SOURCE_MESSAGE_DELETED
+  URGENT
+}
+
+model MessageMention {
+  // https://discord.js.org/#/docs/main/12.5.1/class/MessageMentions
+  channels  Channel[]
+  id        String                      @id
+  members   GuildMemberMessageMention[]
+  roles     Role[]
+  users     User[]
+  createdAt DateTime?                   @default(now())
+  updatedAt DateTime?                   @updatedAt
+
+  // Relations
+  message Message @relation(fields: [id], references: [id])
+}
+
+model MessageReaction {
+  // https://discord.js.org/#/docs/main/12.5.1/class/MessageReaction
+  count         Int?
+  guildEmoji    GuildEmoji?    @relation(fields: [guildEmojiID], references: [id])
+  id            String         @id
+  me            Boolean?
+  message       Message        @relation(fields: [id], references: [id])
+  partial       Boolean?
+  reactionEmoji ReactionEmoji? @relation(fields: [reactionEmojiID], references: [id])
+  users         User[]
+
+  // Relations
+  guildEmojiID    String?
+  reactionEmojiID String?
+}
+
+model MessageReference {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageReference
+  channelID String?
+  guildID   String?
+  messageID String  @id
+
+  // Relations
+  message Message @relation(fields: [messageID], references: [id])
+}
+
+enum MessageType {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/MessageType
+  DEFAULT
+  RECIPIENT_ADD
+  RECIPIENT_REMOVE
+  CALL
+  CHANNEL_NAME_CHANGE
+  CHANNEL_ICON_CHANGE
+  PINS_ADD
+  GUILD_MEMBER_JOIN
+  USER_PREMIUM_GUILD_SUBSCRIPTION
+  USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_1
+  USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_2
+  USER_PREMIUM_GUILD_SUBSCRIPTION_TIER_3
+  CHANNEL_FOLLOW_ADD
+  GUILD_DISCOVERY_DISQUALIFIED
+  GUILD_DISCOVERY_REQUALIFIED
+}
+
+enum Permission {
+  ADMINISTRATOR
+  CREATE_INSTANT_INVITE
+  KICK_MEMBES
+  BAN_MEMBERS
+  MANAGE_CHANNELS
+  MANAGE_GUILD
+  ADD_REACTIONS
+  VIEW_AUDIT_LOG
+  PRIORITY_SPEAKER
+  STREAM
+  VIEW_CHANNEL
+  SEND_MESSAGES
+  SEND_TTS_MESSAGES
+  MANAGE_MEMBERS
+  EMBED_LINKS
+  ATTACH_FILES
+  READ_MESSAGE_HISTORY
+  MENTION_EVERYONE
+  USE_EXTERNAL_EMOJIS
+  VIEW_GUILD_INSIGHTS
+  CONNECT
+  SPEAK
+  MUTE_MEMBERS
+  DEAFEN_MEMBERS
+  MOVE_MEMBERS
+  USE_VAD
+  CHANGE_NICKNAME
+  MANAGE_NICKNAMES
+  MANAGE_ROLES
+  MANAGE_WEBHOOKS
+  MANAGE_EMOJIS
+}
+
+model PermissionOverwrite {
+  // https://discord.js.org/#/docs/main/12.5.1/class/PermissionOverwrites
+  id        String
+  channelID String
+  // permissions Permission[]
+
+  // CategoryChannel CategoryChannel[]
+  // TextChannel     TextChannel[]
+  // VoiceChannel    VoiceChannel[]
+  @@id([id, channelID])
+}
+
+model Presence {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Presence
+  activities   Activity[]
+  clientStatus ClientStatus    @relation(fields: [userID], references: [id])
+  guild        Guild?          @relation(fields: [guildID], references: [id])
+  member       GuildMember     @relation(fields: [userID, guildID], references: [id, guildID])
+  status       PresenceStatus?
+  user         User            @relation(fields: [userID], references: [id])
+  userID       String          @id
+
+  // Relations
+  guildID String?
+}
+
+enum PresenceStatus {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/PresenceStatus
+  online
+  idle
+  offline
+  dnd
+}
+
+model ReactionEmoji {
+  // https://discord.js.org/#/docs/main/12.5.1/class/ReactionEmoji
+  animated         Boolean?
+  createdAt        DateTime?
+  createdTimestamp Int?
+  deleted          Boolean?
+  id               String           @id
+  identifier       String?
+  name             String?
+  reaction         MessageReaction?
+  url              String?
+}
+
+model RichPresenceAsset {
+  // https://discord.js.org/#/docs/main/12.5.1/class/RichPresenceAssets
+  largeImageURL String?
+  largeText     String?
+  smallImage    String?
+  smallText     String?
+  id            String  @id @default(cuid())
+
+  // Relations
+  activity Activity @relation(fields: [id], references: [id])
+}
+
+model Role {
+  // https://discord.js.org/#/docs/main/12.5.1/class/Role
+  color            Int?
+  createdAt        DateTime?
+  createdTimestamp Int?
+  deleted          Boolean?
+  editable         Boolean?
+  guild            Guild?            @relation(fields: [guildID], references: [id])
+  guildID          String?
+  hexColor         String?
+  hoist            Boolean?
+  id               String            @id
+  managed          Boolean?
+  members          GuildMemberRole[]
+  mentionable      Boolean?
+  name             String?
+  permissions      Permission[]
+  position         Int?
+  rawPosition      Int?
+
+  // Relations
+  roleMentions MessageMention[]
+}
+
+enum SystemChannelFlag {
+  // https://discord.js.org/#/docs/main/12.5.1/class/SystemChannelFlags
+  WELCOME_MESSAGE_DISABLED
+  BOOST_MESSAGE_DISABLED
+}
+
+model TextChannel {
+  // https://discord.js.org/#/docs/main/12.5.1/class/TextChannel
+  createdAt         DateTime?
+  createdTimestamp  Int?
+  deletable         Boolean?
+  deleted           Boolean?
+  guild             Guild?                   @relation(fields: [guildID], references: [id])
+  id                String                   @id
+  lastMessage       Message?                 @relation("lastTextMessage", fields: [lastMessageID], references: [id])
+  lastMessageID     String?
+  lastPinAt         DateTime?
+  lastPinTimestamp  Int?
+  manageable        Boolean?
+  members           GuildMemberTextChannel[]
+  messages          Message[]
+  name              String?
+  nsfw              Boolean?
+  parent            CategoryChannel?         @relation(fields: [parentID], references: [id])
+  parentID          String?
+  // permissionOverwrites PermissionOverwrite[]
+  permissionsLocked Boolean?
+  position          Int?
+  rateLimitPerUser  Int?
+  rawPosition       Int?
+  topic             String?
+  type              ChannelType?
+  typing            Boolean?
+  typingCount       Int?
+  viewable          Boolean?
+
+  // Relations
+  rulesChannelGuild Guild?  @relation("guildRules")
+  systemOutputGuild Guild?  @relation("guildSystemOutput")
+  widgetOutputGuild Guild?  @relation("guildWidgetOutput")
+  embedChannelGuild Guild?  @relation("embedChannel")
+  guildID           String?
+}
+
+model User {
+  // https://discord.js.org/#/docs/main/12.5.1/class/User
+  avatar               String?
+  bot                  Boolean?
+  createdAt            DateTime?
+  createdTimestamp     Int?
+  defaultAvatarURL     String?
+  discriminator        String?
+  dmChannel            DMChannel?
+  flags                UserFlag[]
+  id                   String     @id
+  lastMessage          Message?   @relation("lastUserMessage", fields: [lastMessageID], references: [id])
+  lastMessageChannelID String?
+  lastMessageID        String?
+  locale               String?
+  partial              Boolean?
+  presence             Presence?
+  system               Boolean?
+  tag                  String?
+  username             String?
+
+  // Ember Defined
+  blacklisted     Boolean? @default(false)
+  blacklistReason String?
+  botOwner        Boolean? @default(false)
+  updatedAt       DateTime @updatedAt
+  user            Json?
+
+  // Relations
+  applications ClientApplication[]
+  emojis       GuildEmoji[]
+  memberships  GuildMember[]
+  messages     Message[]
+  mentions     MessageMention[]
+  reactions    MessageReaction[]
+}
+
+enum UserFlag {
+  // https://discord.js.org/#/docs/main/12.5.1/class/UserFlags
+  DISCORD_EMPLOYEE
+  PARTNERED_SERVER_OWNER
+  HYPESQUAD_EVENTS
+  BUGHUNTER_LEVEL_1
+  HOUSE_BRAVERY
+  HOUSE_BRILLIANCE
+  HOUSE_BALANCE
+  EARLER_SUPPORTER
+  TEAM_USER
+  SYSTEM
+  BUGHUNTER_LEVEL_2
+  VERIFIED_BOT
+  EARLY_VERIFIED_BOT_DEVELOPER
+}
+
+enum VerificationLevel {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/VerificationLevel
+  NONE
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+}
+
+model VoiceConnection {
+  // https://discord.js.org/#/docs/main/12.5.1/class/VoiceConnection
+  channel    VoiceChannel @relation(fields: [id], references: [id])
+  id         String       @id
+  VoiceState VoiceState?
+  createdAt  DateTime?    @default(now())
+  updatedAt  DateTime?    @updatedAt
+}
+
+model VoiceState {
+  // https://discord.js.org/#/docs/main/12.5.1/class/VoiceState
+  channel           VoiceChannel?    @relation(fields: [channelID], references: [id])
+  channelID         String?
+  connection        VoiceConnection? @relation(fields: [voiceConnectionID], references: [id])
+  voiceConnectionID String?
+  deaf              Boolean?
+  guild             Guild?           @relation(fields: [guildID], references: [id])
+  guildID           String?
+  id                String           @id
+  member            GuildMember?     @relation(fields: [guildMemberID, guildID], references: [id, guildID])
+  guildMemberID     String?
+  mute              Boolean?
+  selfDeaf          Boolean?
+  selfMute          Boolean?
+  selfVideo         Boolean?
+  serverDeaf        Boolean?
+  serverMute        Boolean?
+  sessionID         String?
+  speaking          Boolean?
+  streaming         Boolean?
+}
+
+model VoiceChannel {
+  // https://discord.js.org/#/docs/main/12.5.1/class/VoiceChannel
+  bitrate           Int?
+  createdAt         DateTime?
+  createdTimestamp  Int?
+  deletable         Boolean?
+  deleted           Boolean?
+  editable          Boolean?
+  full              Boolean?
+  guild             Guild?                    @relation(fields: [guildID], references: [id])
+  id                String                    @id
+  manageable        Boolean?
+  members           GuildMemberVoiceChannel[]
+  name              String?
+  parent            CategoryChannel?          @relation(fields: [parentID], references: [id])
+  parentID          String?
+  // permissionOverwrites          PermissionOverwrite[]
+  permissionsLocked Boolean?
+  position          Int?
+  rawPosition       Int?
+  speakable         Boolean?
+  type              ChannelType?
+  userLimit         Int?
+  viewable          Boolean?
+
+  // Relations
+  guildID               String?
+  guildForAfkChannel    Guild?            @relation("afkChannel")
+  usersConnectedToVoice VoiceConnection[]
+  usersInVoiceChannel   VoiceState[]
+}
+
+model WebSocketManager {
+  // https://discord.js.org/#/docs/main/12.5.1/class/WebSocketManager
+  gateway  String?
+  clientID String           @id
+  ping     Int?
+  shards   WebSocketShard[]
+  status   Int?
+}
+
+model WebSocketShard {
+  // https://discord.js.org/#/docs/main/12.5.1/class/WebSocketShard
+  id      Int              @id
+  manager WebSocketManager @relation(fields: [clientID], references: [clientID])
+  ping    Int?
+  status  WebSocketStatus  @relation(fields: [id], references: [id])
+
+  // Relations
+  guildsInShard Guild[]
+  clientID      String
+}
+
+model WebSocketStatus {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/Status
+  id         Int                  @id
+  status     Int?
+  statusCode WebSocketStatusCode?
+
+  // Relations
+  shardsOnSocket WebSocketShard[]
+}
+
+enum WebSocketStatusCode {
+  // https://discord.js.org/#/docs/main/12.5.1/typedef/Status
+  READY
+  CONNECTING
+  RECONNECTING
+  IDLE
+  NEARLY
+  DISCONNECTED
+  WAITING_FOR_GUILDS
+  IDENTIFYING
+  RESUMING
 }

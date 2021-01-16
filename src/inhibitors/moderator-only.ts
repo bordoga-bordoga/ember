@@ -36,7 +36,8 @@ export default class ModeratorOnlyInhibitor extends Inhibitor {
       command.categoryID === "mod" &&
       !message.member?.roles.cache.some((role) =>
         this.modRoles.includes(role.id),
-      )
+      ) &&
+      !message.member?.permissions.has("ADMINISTRATOR")
     );
   }
 }

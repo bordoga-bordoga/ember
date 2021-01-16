@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statement */
 // index.ts
 /**
  * AYBot
@@ -14,11 +13,10 @@
  * @packageDocumentation
  * @alpha
  */
-// import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import "dotenv/config";
-// import gql from "graphql-tag";
 
-import BotClient from "./client/bot-client";
+import BotClient from "./types/akairo-extensions/bot-client";
+import { TOPICS, EVENTS } from "./logger";
 
 /**
  * owner, token, and commandCenter are defined in a .env file
@@ -32,7 +30,7 @@ import BotClient from "./client/bot-client";
  * @see {@link BotClient} for a full declaration of startup, rather than this entry point.
  * @see .env.example for the configuration of the bot.
  */
-const discord: BotClient = new BotClient({
+const botClient: BotClient = new BotClient({
   commandCenter: process.env.commandCenter ?? "",
   debugging:
     (process.env.debugging === "true" ||
@@ -42,34 +40,11 @@ const discord: BotClient = new BotClient({
   token: process.env.token ?? "",
 });
 
-export default discord;
+botClient.start().catch((error: Error) =>
+  botClient.logger.error(error.message, {
+    topic: TOPICS.DISCORD,
+    event: EVENTS.ERROR,
+  }),
+);
 
-console.log("?");
-/*
-const client = new ApolloClient({
-  uri: "https://localhost:4000",
-  cache: new InMemoryCache(),
-});
-
-console.log("??");
-console.log(client);
-
-client
-  .query({
-    query: gql`
-      query guild {
-        guilds(first: 3) {
-          id
-          prefix
-        }
-      }
-    `,
-  })
-  .then((result) => console.log(result))
-  .catch((error: Error) => console.error(error)); */
-
-console.log("???");
-
-discord.start().catch((error: Error) => discord.logger.error(error.message));
-
-console.log("????");
+export default botClient;

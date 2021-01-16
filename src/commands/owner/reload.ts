@@ -26,11 +26,11 @@ export default class ReloadCommand extends Command {
    * @param message - Will contain the {@link https://discord.js.org/#/docs/main/stable/class/Message | Message} object that hooked the command.
    * @returns A message indicating that all handlers have been reloaded.
    */
-  public async exec(message: Message): Promise<Message> {
+  public async exec(message: Message): Promise<string> {
     /*
     this.client.commandHandler.reloadAll();
     this.client.listenHandler.reloadAll();
     this.client.inhibitorHandler.reloadAll(); */
-    return message.util?.send("reloaded.") ?? message.channel.send("reloaded.");
+    return Promise.resolve(`Reloaded, ${message.author.tag}.`);
   }
 }

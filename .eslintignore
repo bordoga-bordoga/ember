@@ -3,3 +3,4 @@ dist
 typedoc.js
 package.json
 tsconfig.json
+generated

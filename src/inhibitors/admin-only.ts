@@ -33,7 +33,8 @@ export default class AdministratorOnlyInhibitor extends Inhibitor {
       command.categoryID === "admin" &&
       !message.member?.roles.cache.some((role) =>
         this.adminRoles.includes(role.id),
-      )
+      ) &&
+      !message.member?.permissions.has("ADMINISTRATOR")
     );
   }
 }

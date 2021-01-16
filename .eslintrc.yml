@@ -62,7 +62,7 @@ rules:
     - ignorePattern: "constructor"
   "functional/no-expression-statement":
     - error
-    - ignorePattern: ["super", "client.start", "this"]
+    - ignorePattern: ["super", "client.start", "this", "logger", "console"]
   "functional/no-this-expression":
     - off
   "unicorn/no-nested-ternary":
@@ -105,6 +105,7 @@ rules:
 
   "@typescript-eslint/no-unused-vars":
     - error
+    - varsIgnorePattern: "^Json"
 
   "@typescript-eslint/no-useless-constructor":
     - error

@@ -75,6 +75,7 @@
   "exclude": [
     "prisma",
     "nexus",
-    "contributing"
+    "contributing",
+    "example"
   ]
 }

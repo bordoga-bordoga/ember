@@ -1,7 +1,7 @@
-import { Command } from "discord-akairo";
 import { Message } from "discord.js";
 
 import VoiceUtils from "../../util/functions/voice";
+import BotCommand from "../../types/akairo-extensions/bot-command";
 
 /**
  * Defines how to respond to _unlock.
@@ -10,7 +10,7 @@ import VoiceUtils from "../../util/functions/voice";
  *
  * @see {@link https://discord-akairo.github.io/#/docs/main/master/class/Command | akairo.Command}
  */
-export default class MoveCommand extends Command {
+export default class MoveCommand extends BotCommand {
   public constructor() {
     super("move", {
       aliases: ["mv", "m"],

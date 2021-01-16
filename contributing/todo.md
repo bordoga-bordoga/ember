@@ -12,3 +12,9 @@
 - ccxt
 - MikroORM?
 - language translator handling reply messages
+- Fine grain Apollo logging
+  - <https://www.apollographql.com/docs/apollo-server/integrations/plugins/#responding-to-request-lifecycle-events>
+
+For Contributing:
+
+- All commands must return `Promise<string>`

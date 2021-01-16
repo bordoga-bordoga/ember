@@ -1,7 +1,7 @@
-import { Command } from "discord-akairo";
 import { Message, GuildMember } from "discord.js";
 
-import Verifiable from "../../util/types/verifiable";
+import BotCommand from "../../types/akairo-extensions/bot-command";
+import Verifiable from "../../types/verifiable";
 
 /**
  * Defines how to respond to _vegan and _nonvegan.
@@ -10,7 +10,7 @@ import Verifiable from "../../util/types/verifiable";
  *
  * @see {@link https://discord-akairo.github.io/#/docs/main/master/class/Command | akairo.Command}
  */
-export default class VerifyCommand extends Command {
+export default class VerifyCommand extends BotCommand {
   private static readonly vegan: string = "785732887206952962"; // TODO - read this stuff from Settings
 
   private static readonly nonvegan: string = "785732911549775883";
