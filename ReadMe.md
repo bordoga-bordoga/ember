@@ -29,7 +29,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/AnotherBrynAlt/Ember">
+  <a href="https://gitlab.com/BrynAlt/ember-bot">
     <img src="icon.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -38,14 +38,14 @@
   <p align="center">
     Ember is a feature-rich Discord Bot written in TypeScript
     <br />
-    <a href="https://github.com/AnotherBrynAlt/Ember"><strong>Explore the docs »</strong></a>
+    <a href="https://gitlab.com/BrynAlt/ember-bot/-/tree/master/contributing/docs"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/AnotherBrynAlt/Ember">View Demo</a>
+    <a href="https://gitlab.com/BrynAlt/ember-bot">View Demo</a>
     ·
-    <a href="https://github.com/AnotherBrynAlt/Ember/issues">Report Bug</a>
+    <a href="https://gitlab.com/BrynAlt/ember-bot/-/issues">Report Bug</a>
     ·
-    <a href="https://github.com/AnotherBrynAlt/Ember/issues">Request Feature</a>
+    <a href="https://gitlab.com/BrynAlt/ember-bot/-/issues">Request Feature</a>
   </p>
 </p>
 
@@ -78,7 +78,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://gitlab.com/BrynAlt/ember-bot)
 
 Ember is written with modern frameworks and highly opinionated style choices. It was written in the interest of being a community project for the [Ask Yourself🍉 Discord](https://discord.gg/dUPFfby).
 
@@ -133,10 +133,12 @@ _For more examples, please refer to the [Documentation](https://bryn.host/ember/
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/AnotherBrynAlt/Ember/issues) for a list of proposed features (and known issues).
+See the [open issues](https://gitlab.com/BrynAlt/ember-bot/-/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
+
+Please read the available documentation in the [Contributing Section](https://gitlab.com/BrynAlt/ember-bot/-/tree/master/contributing)
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -160,7 +162,7 @@ The project is also distributed under the CC0 License. See `constributing/licens
 
 Bryn - [@AnotherBrynAlt](https://twitter.com/AnotherBrynAlt) - AnotherBrynAlt@gmail.com
 
-Project Link: [https://github.com/AnotherBrynAlt/Ember](https://github.com/AnotherBrynAlt/Ember)
+Project Link: [https://github.com/AnotherBrynAlt/Ember](https://gitlab.com/BrynAlt/ember-bot/Ember)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
@@ -188,14 +190,14 @@ Project Link: [https://github.com/AnotherBrynAlt/Ember](https://github.com/Anoth
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/AnotherBrynAlt/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/AnotherBrynAlt/repo/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/AnotherBrynAlt/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/AnotherBrynAlt/repo/network/members
-[stars-shield]: https://img.shields.io/github/stars/AnotherBrynAlt/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/AnotherBrynAlt/repo/stargazers
-[issues-shield]: https://img.shields.io/github/issues/AnotherBrynAlt/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/AnotherBrynAlt/repo/issues
-[license-shield]: https://img.shields.io/github/license/AnotherBrynAlt/repo.svg?style=for-the-badge
-[license-url]: https://github.com/AnotherBrynAlt/repo/blob/master/LICENSE.txt
-[product-screenshot]: code.png
+[contributors-shield]: https://img.shields.io/badge/Contributors-gitlab-success.svg
+[contributors-url]: https://gitlab.com/BrynAlt/ember-bot/-/graphs/master
+[forks-shield]: https://img.shields.io/badge/Forks-gitlab-informational.svg
+[forks-url]: https://gitlab.com/BrynAlt/ember-bot/-/forks
+[stars-shield]: https://img.shields.io/badge/Stars-gitlab-yellow.svg
+[stars-url]: https://gitlab.com/BrynAlt/ember-bot/-/starrers
+[issues-shield]: https://img.shields.io/badge/Issues-gitlab-critical.svg
+[issues-url]: https://gitlab.com/BrynAlt/ember-bot/-/issues
+[license-shield]: https://img.shields.io/badge/License-MIT-red
+[license-url]: https://gitlab.com/BrynAlt/ember-bot/-/blob/master/contributing/license/mit.md
+[product-screenshot]: src/assets/img/code.png
