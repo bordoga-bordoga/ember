@@ -30,7 +30,7 @@
 <br />
 <p align="center">
   <a href="https://gitlab.com/BrynAlt/ember-bot">
-    <img src="src/assets/img/icon.png" alt="Logo" width="80" height="80">
+    <img src="src/assets/img/icon-4.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Ember</h3>
@@ -162,7 +162,7 @@ The project is also distributed under the CC0 License. See `constributing/licens
 
 Bryn - [@AnotherBrynAlt](https://twitter.com/AnotherBrynAlt) - AnotherBrynAlt@gmail.com
 
-Project Link: [https://github.com/AnotherBrynAlt/Ember](https://gitlab.com/BrynAlt/ember-bot/Ember)
+Project Link: [Gitlab](https://gitlab.com/BrynAlt/ember-bot/Ember)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
@@ -201,3 +201,11 @@ Project Link: [https://github.com/AnotherBrynAlt/Ember](https://gitlab.com/BrynA
 [license-shield]: https://img.shields.io/badge/License-MIT-red
 [license-url]: https://gitlab.com/BrynAlt/ember-bot/-/blob/master/contributing/license/mit.md
 [product-screenshot]: src/assets/img/code.png
+
+### Asset Attribution
+
+Ember utilized the following assets for developing its icon:
+
+* [Fire by Freepik](https://www.flaticon.com/free-icon/fire_785116)
+
+* [Brain by Freepik](https://www.flaticon.com/free-icon/brain_2257689)
