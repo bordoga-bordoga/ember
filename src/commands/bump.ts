@@ -5,9 +5,8 @@ import BotCommand from "../../types/akairo-extensions/bot-command";
 
 export default class Bump extends BotCommand {
   public constructor () {
-    super("bumper", {
-      aliases: ["bump"],
-      category: "ember",
+    super("bump", {
+      aliases: ["bump", "b"],
     });
   }
 
